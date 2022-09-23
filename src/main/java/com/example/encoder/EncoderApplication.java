@@ -20,10 +20,36 @@ public class EncoderApplication implements CommandLineRunner{
 	public void run(String... args) throws Exception {
 		
 		List<String> lines = Files.readAllLines(Paths.get("src/main/resources/input.csv"));
-		String base64Encoded = Base64.getEncoder().encodeToString(lines.get(0).getBytes());
-		byte[] test = Base64.getDecoder().decode(base64Encoded);
-		System.out.println("Hello World" + lines + base64Encoded + new String(test));
+
+		for (String line : lines) {
+			//Split up the comma seperated data values into a string array
+			String[] data = line.split(",");
+
+			//generate a new password if one does not already exist
+			if(data.length == 1) {	
+				data = new String[] {data[0], generatePassword()};
+			}	
+
+			//add the username to the output line
+			String outputLine = data[0];
+			
+			//add the base64 encoded password to the outputLine
+			outputLine += "," + Base64.getEncoder().encodeToString(lines.get(0).getBytes());
+
+			//add the encrypted password to the outputLine
+			outputLine += "," + generateEncryptedPassword(data[1]);
+
+			//write the output line to the output file
+			System.out.println(outputLine);
+		}
 		
 	}
+	
+	String generatePassword() {
+		return "password";
+	}
 
+	String generateEncryptedPassword(String password) {
+		return "EncryptedPassword";
+	}
 }
