@@ -19,7 +19,7 @@ Columns
 
 ## Output File Format
 
-The input file will be a .csv
+The output file will be a .csv
 
 Columns
 * username
